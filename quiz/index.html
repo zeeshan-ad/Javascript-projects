@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quiz App</title>
+        <style>
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #FFC83D;
+            }
+            p,h1{
+                text-align: center;
+            } 
+            #main{
+                background: #fff;
+                border-radius: 2px;
+                height: 300px;
+                width: 300px;
+                padding: 20px 50px;
+                box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+            }
+            li{
+                list-style: none;
+            }
+            ul{
+                padding-left: 0;
+            }
+            button{
+                width: 100%;
+                background-color: #2FB45A;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                border: none;
+                color: #fff;
+                font-weight: bold;
+            }
+            #score{
+                text-align: center;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <h1>Quiz App</h1><br>
+            <h3 id="question"></h3>
+            <ul>
+                <li>
+                    <input type="radio" id="a" name="isCheck" class="isCheck">
+                    <label id="a_text" for="a"></label>
+                </li>
+                <li>
+                    <input type="radio" id="b" name="isCheck" class="isCheck">
+                    <label id="b_text" for="b"></label>
+                </li>
+                <li>
+                    <input type="radio" id="c" name="isCheck" class="isCheck">
+                    <label id="c_text" for="c"></label>
+                </li>
+            </ul>
+            <button id="submit">Submit</button>
+            <p id="score"></p>
+        </div>
+        <script>
+        const quiz = [
+        {
+            question: "Who's the PM of India?",
+            a: "Rahul Gandhi",
+            b: "Narendra Modi",
+            c: "Mukesh Ambani",
+            answer: "b"
+        },
+        {
+            question: "Who's the Home Minister of India?",
+            a: "Amit Shah",
+            b: "Narendra Modi",
+            c: "Mukesh Ambani",
+            answer: "a"
+        },
+        {
+            question: "Who was the first president of India?",
+            a: "Rajendra Prasad",
+            b: "Bhagat Singh",
+            c: "Jawaharlal Nehru",
+            answer: "a"
+        },
+        {
+            question: "What's the capital of India?",
+            a: "Delhi",
+            b: "Kolkata",
+            c: "Bengaluru",
+            answer: "a"
+       },
+    ];
+    let score = 0; 
+    const l = quiz.length;
+    const question = document.getElementById("question");
+    const answer_check = document.querySelectorAll(".isCheck");
+    const a_text = document.getElementById("a_text");
+    const b_text = document.getElementById("b_text");
+    const c_text = document.getElementById("c_text");
+    const submitBtn = document.getElementById("submit");
+    let currentQuiz = 0;
+    loadQuiz(currentQuiz);
+    function loadQuiz(n){
+        deselectAnswer();
+        question.innerHTML = quiz[n].question;
+        a_text.innerHTML = quiz[n].a;
+        b_text.innerHTML = quiz[n].b;
+        c_text.innerHTML = quiz[n].c;
+    }
+    function getSelected() {
+        let answer = undefined;
+        answer_check.forEach((answerN) =>{
+            if(answerN.checked){
+                answer = answerN.id;
+            }
+        });
+        return answer;
+    }
+
+    function deselectAnswer(){
+        answer_check.forEach((answerN) =>{
+            answer = false;
+        });
+    }
+    
+    submitBtn.addEventListener("click", () => {
+        const answer = getSelected();
+        if(answer){
+        if(answer === quiz[currentQuiz].answer){
+            score++;
+        }
+        currentQuiz++;
+        if(currentQuiz<l){
+            loadQuiz(currentQuiz);
+        }else{
+            document.getElementById("score").innerHTML="Score: "+score+"/4";
+        }
+    }
+    });
+    </script>
+    </body>
+</html>
